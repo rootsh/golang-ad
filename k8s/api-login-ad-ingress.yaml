@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/allow-http: "false"
+    ingress.kubernetes.io/ssl-redirect: "true"
+  name: api-login-ad
+  namespace: api-login-ad
+spec:
+  rules:
+  - host: api-login-ad.corp.acme
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: api-login-ad
+          servicePort: 80
+  tls:
+    - hosts:
+      - api-login-ad.corp.acme

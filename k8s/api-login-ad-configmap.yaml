@@ -1,0 +1,8 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: api-login-ad-configmap
+  namespace: api-login-ad
+data:
+  AD_SERVER: "FDQN_SERVER"
+  AD_BASEDN: "DC=corp,DC=acme"

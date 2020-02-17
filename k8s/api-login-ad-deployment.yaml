@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-login-ad
+  namespace: api-login-ad
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: api-login-ad
+    spec:
+      containers:
+      - name: api-login-ad
+        image: harbor.claro.com.br/infra/api-ad-login:v0.3
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 4000
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        env:
+          - name: AD_SERVER
+            valueFrom:
+              configMapKeyRef:
+                name: api-login-ad-configmap
+                key: AD_SERVER
+          - name: AD_BASEDN
+            valueFrom:
+              configMapKeyRef:
+                name: api-login-ad-configmap
+                key: AD_BASEDN
+      imagePullSecrets:
+      - name: api-login-ad
